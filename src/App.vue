@@ -46,4 +46,10 @@ body{
     width: inherit;
     background-color: #fff;
   }
+  .show-more-row  img{
+    width: 16px;
+    height: 16px;
+    position: relative;
+    top: 2px;
+  }
 </style>
