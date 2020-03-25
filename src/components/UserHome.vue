@@ -28,11 +28,11 @@
       <mu-row gutter>
         <mu-col span="3">
           <mu-avatar :size="size">
-            <img src="">
+            <img :src="user.avatars">
           </mu-avatar>
         </mu-col>
         <mu-col span="3" class="left-col">
-          <span>liaoxx</span>
+          <span>{{user.nickname}}</span>
           <span>18676684597</span>
         </mu-col>
         <mu-col span="6"></mu-col>
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import {getUserInfo} from '../util/User'
 export default {
   name: 'UserHome',
 
@@ -88,12 +89,21 @@ export default {
       current: 1,
       carouselImgS: [],
       recommendedGoods: [],
-      active: 0
+      active: 0,
+      size: 48,
+      user: {}
     }
   },
   created: function () {
     // eslint-disable-next-line no-unused-vars
-    const that = this
+    if (getUserInfo() === null) {
+      console.log(this)
+      this.$router.push({
+        // eslint-disable-next-line standard/object-curly-even-spacing
+        path: 'userLogin'
+      })
+    }
+    this.user = getUserInfo()
     /* this.$request.get('/goodsapi/recommendList').then(function (response) {
       console.log(process.env)
       that.carouselImgS = response.data.data

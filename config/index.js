@@ -29,6 +29,13 @@ module.exports = {
         pathRewrite: {
           '^goodsapi': ''
         }
+      },
+      '/userapi': {
+        target: 'http://localhost:8081',
+        changeOrigin: true,
+        pathRewrite: {
+          '^userapi': ''
+        }
       }
     },
     // Use Eslint Loader?

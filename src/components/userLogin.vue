@@ -24,6 +24,11 @@
           </mu-menu>
         </mu-appbar>
     </div>
+    <div>
+      <mu-alert color="warning" @delete="alert1 = false" delete v-if="alert1" transition="mu-scale-transition">
+        <mu-icon left value="warning"></mu-icon> {{this.alertMsg}}
+      </mu-alert>
+    </div>
     <div class="single-info-row">
       <mu-row gutter>
       </mu-row>
@@ -34,17 +39,17 @@
       </mu-col>
       <mu-row gutter>
         <mu-col span="12">
-          <label >用户名</label><mu-text-field v-model="value1"></mu-text-field><br/>
+          <label >用户名</label><mu-text-field v-model="username"></mu-text-field><br/>
         </mu-col>
       </mu-row>
       <mu-row gutter>
         <mu-col span="12">
-          <label >密码</label><mu-text-field v-model="value1"></mu-text-field><br/>
+          <label >密码</label><mu-text-field type="password" v-model="password"></mu-text-field><br/>
         </mu-col>
       </mu-row>
       <mu-row gutter>
         <mu-col span="12">
-          <mu-button color="primary">登录</mu-button>
+          <mu-button color="primary" type="submit" @click="handleLogin">登录</mu-button>
         </mu-col>
       </mu-row>
     </div>
@@ -61,17 +66,21 @@
 </template>
 
 <script>
+// eslint-disable-next-line standard/object-curly-even-spacing
+import { getToken, setToken /*, removeToken */ } from '../util/Token.js'
+// eslint-disable-next-line standard/object-curly-even-spacing
+import { setUserInfo } from '../util/User'
+
 export default {
+
   name: 'userLogin',
 
   data () {
     return {
-      input: '默认',
-      msg: 'Welcome to Your Vue.js App',
-      current: 1,
-      carouselImgS: [],
-      recommendedGoods: [],
-      active: 0
+      username: '',
+      password: '',
+      alertMsg: '初始化的警告信息',
+      alert1: true
     }
   },
   created: function () {
@@ -93,16 +102,68 @@ export default {
       }) */
   },
   methods: {
+    handleLogin () {
+      let token = getToken()
+      // console.log(token)
+      // console.log(typeof token)
+      let that = this
+      if (token === '' || token === null || token === 'undefined') {
+        // console.log('to request login handle')
+        let data = {'username': this.username,
+          'password': this.password}
+        this.$request.post('/userapi/login', data).then(function (response) {
+          let resp = response.data
+          // console.log(resp)
+          if (resp.success === 'success') {
+            setToken(resp.data.token)
+            setUserInfo(resp.data.user)
+            that.$router.push({
+              path: 'userHome'
+            })
+          } else {
+            this.toggleAlert(resp.message)
+          }
+        })
+          .catch(function (error) {
+            if (!(navigator.onLine)) {
+              alert('网络失去连接')
+            }
+            console.log(error)
+            alert('dddd')
+          })
+      } else {
+        let data = {'token': token}
+        this.$request.post('/userapi/info', data).then(function (response) {
+          let resp = response.data
+          // console.log(resp)
+          if (resp.success === 'success') {
+            setUserInfo(resp.data.user)
+            that.$router.push({
+              // eslint-disable-next-line standard/object-curly-even-spacing
+              path: 'userHome', query: { id: 1}
+            })
+          } else {
+            this.toggleAlert(resp.message)
+          }
+        })
+          .catch(function (error) {
+            if (!(navigator.onLine)) {
+              alert('网络失去连接')
+            }
+            console.log(error)
+            alert('bbbb')
+          })
+      }
+    },
     changeActive (index) {
       this.active = index
     },
     shift () {
       console.log(999999)
     },
-    goGoods (goodsId) {
-      console.log(goodsId)
-      // eslint-disable-next-line standard/object-curly-even-spacing
-      this.$router.push({ path: 'goods', query: { goodsId: goodsId }})
+    toggleAlert (msg) {
+      this.alertMsg = msg
+      this.alert1 = !this.alert1
     }
   }
 }
@@ -141,8 +202,8 @@ export default {
   .d-flex{
     height: 100%;
   }
-  .mu-paper{
-    height: inherit;
+  .mu-alert{
+    color: black;
   }
   .mu-grid-list{
     height: inherit;
