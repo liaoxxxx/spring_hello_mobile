@@ -9,12 +9,16 @@ import router from './router'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import request from './util/request'
+import header from './components/common/header'
+import footer from './components/common/footer'
+
 Vue.use(MuseUI)
 // Vue.use(Axios)
-
 // Vue.prototype.$request = Axios
 Vue.prototype.$request = request
 
+Vue.component('header-view', header)
+Vue.component('footer-view', footer)
 // Vue.use(ElementUI)
 Vue.config.productionTip = false
 

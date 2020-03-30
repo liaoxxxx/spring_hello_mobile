@@ -3,7 +3,7 @@ import * as qs from 'qs'
 // import { getToken } from '@/utils/auth'
 
 // create an axios instance
-const service = axios.create({
+const request = axios.create({
   // baseURL: 'http://localhost:8081', // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000, // request timeout
@@ -11,12 +11,12 @@ const service = axios.create({
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 })
 
-console.log(service.defaults.headers)
+console.log(request.defaults.headers)
 // service.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded'
 // service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 // request interceptor
-service.interceptors.request.use(
+request.interceptors.request.use(
   config => {
     // do something before request is sent
     config.method === 'post'
@@ -32,4 +32,4 @@ service.interceptors.request.use(
 )
 // console.log(service.defaults.headers)
 
-export default service
+export default request

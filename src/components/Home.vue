@@ -1,34 +1,10 @@
 <template>
-  <div class="hello" style="padding:2px">
     <mu-container style="max-width: 400px; width:100%;">
-    <div>
-        <mu-appbar style="width: 100%;" color="primary">
-          <mu-button icon slot="left">
-            <mu-icon value="menu"></mu-icon>
-          </mu-button>
-          Title
-          <mu-menu slot="right">
-            <mu-button flat>MENU</mu-button>
-            <mu-list slot="content">
-              <mu-list-item button>
-                <mu-list-item-content>
-                  <mu-list-item-title>Menu Item 1</mu-list-item-title>
-                </mu-list-item-content>
-              </mu-list-item>
-              <mu-list-item button>
-                <mu-list-item-content>
-                  <mu-list-item-title>Menu Item 2</mu-list-item-title>
-                </mu-list-item-content>
-              </mu-list-item>
-            </mu-list>
-          </mu-menu>
-        </mu-appbar>
-    </div>
+    <header-view :titleText="topTitle"></header-view>
     <div class="goods-list">
       <mu-flex justify-content="center">
         <mu-paper :z-depth="1">
           <mu-grid-list class="gridlist-demo" >
-            <mu-sub-header>December</mu-sub-header>
             <mu-grid-tile v-for="(item, index) in recommendedGoods" :key="index" @click="goGoods(item.id)">
               <img :src="item.thumb" >
               <span slot="title">{{item.title}}</span>
@@ -41,16 +17,8 @@
         </mu-paper>
       </mu-flex>
     </div>
-    <div class="bottom-nav-box">
-        <mu-bottom-nav :value.sync="shift" shift>
-          <mu-bottom-nav-item value="home" title="Movies" icon="ondemand_video"></mu-bottom-nav-item>
-          <mu-bottom-nav-item value="music" title="Music" icon="music_note"></mu-bottom-nav-item>
-          <mu-bottom-nav-item value="books" title="Books" icon="books"></mu-bottom-nav-item>
-          <mu-bottom-nav-item value="pictures" title="Pictures" icon="photo"></mu-bottom-nav-item>
-        </mu-bottom-nav>
-    </div>
+    <footer-view></footer-view>
     </mu-container>
-  </div>
 </template>
 
 <script>
@@ -64,9 +32,11 @@ export default {
       current: 1,
       carouselImgS: [],
       recommendedGoods: [],
-      active: 0
+      active: 0,
+      topTitle: 'XX商店'
     }
   },
+  // eslint-disable-next-line vue/no-dupe-keys
   created: function () {
     const that = this
     this.$request.get('/goodsapi/recommendList').then(function (response) {
@@ -117,11 +87,6 @@ export default {
       margin-left: 0;
       width: 100%;
     }
-  .bottom-nav-box{
-    position: fixed;
-    bottom:5px;
-    width: inherit;
-  }
   .gridlist-demo{
     width: 360px;
     height: 450px;

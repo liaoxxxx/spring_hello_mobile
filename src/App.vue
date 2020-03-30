@@ -14,9 +14,11 @@ export default {
 
 html{
   height: 100%;
+  width: 100%;
 }
 body{
   height: inherit;
+  width: 100%;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -25,9 +27,6 @@ body{
   text-align: center;
   color: #2c3e50;
   width: inherit;
-  height: inherit;
-}
-.hello{
   height: inherit;
 }
 .container{
@@ -40,11 +39,18 @@ body{
   width: 100%;
   text-align: center;
 }
+
+.header-row-fixed{
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  overflow: hidden;
+}
 .bottom-nav-box{
-    position: fixed;
-    bottom:0;
-    width: inherit;
-    background-color: #fff;
+  position: fixed;
+  bottom:0;
+  width: inherit;
+  background-color: #fff;
   }
   .show-more-row  img{
     width: 16px;

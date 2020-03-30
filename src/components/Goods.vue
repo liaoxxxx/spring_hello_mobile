@@ -1,5 +1,4 @@
 <template>
-  <div class="hello" style="padding:2px">
     <mu-container style="max-width: 400px; width:100%;">
     <div>
         <mu-appbar style="width: 100%;" color="primary">
@@ -118,7 +117,6 @@
       </mu-row>
     </div>
     </mu-container>
-  </div>
 </template>
 
 <script>
