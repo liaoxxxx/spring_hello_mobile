@@ -63,7 +63,7 @@
     <div  class="express-info-row single-info-row">
       <mu-row gutter>
         <mu-col span="2" class="left-col">发货</mu-col>
-        <mu-col span="5"><span><img class="location-icon" src="~icon/baseline_location_on_black_48dp.png" alt=""></span>广西南宁</mu-col>
+        <mu-col span="5"><span><mu-icon  value="place"  right></mu-icon>广西南宁</span></mu-col>
         <mu-col span="2">快递</mu-col>
         <mu-col span="3"><span>月销</span>2000</mu-col>
       </mu-row>
@@ -79,7 +79,7 @@
     <div class="choice-category-row single-info-row">
       <mu-row gutter>
         <mu-col span="2" class="left-col">选择</mu-col>
-        <mu-col span="6">选择颜色分类</mu-col>
+        <mu-col span="6" @click="openBotttomSheet">选择颜色分类</mu-col>
       </mu-row>
     </div>
     <!-------------------------------------------->
@@ -116,6 +116,38 @@
         </mu-col>
       </mu-row>
     </div>
+    <div class="">
+      <mu-bottom-sheet :open.sync="openBottom" class="Bottom-param-panel">
+        <mu-row>
+          <mu-col span="11"><div class="grid-cell"></div></mu-col>
+          <mu-col span="1"><div class="grid-cell">
+            <mu-icon @click="closeBottomSheet" value="clear"  right></mu-icon>
+          </div></mu-col>
+        </mu-row>
+        <mu-row>
+          <mu-sub-header>尺寸</mu-sub-header>
+          <mu-col span="12" class="param-row-title">
+            <mu-chip class="demo-chip" :selected="true" color="red">plus</mu-chip>
+            <mu-chip class="demo-chip" :selected="false" color="red">mini</mu-chip>
+          </mu-col>
+        </mu-row>
+        <mu-row>
+          <mu-sub-header>颜色</mu-sub-header>
+          <mu-col span="11" class="param-row-title"></mu-col>
+          <mu-col span="1"></mu-col>
+        </mu-row>
+        <mu-row>
+          <mu-sub-header>版本</mu-sub-header>
+          <mu-col span="11" class="param-row-title"></mu-col>
+          <mu-col span="1"></mu-col>
+        </mu-row>
+        <mu-row>
+          <mu-col span="3" class="param-row-title">数量</mu-col>
+          <mu-col span="6" class="param-row-title"></mu-col>
+          <mu-col span="3"></mu-col>
+        </mu-row>
+      </mu-bottom-sheet>
+    </div>
     </mu-container>
 </template>
 
@@ -142,7 +174,8 @@ export default {
         basePrice: 0,
         inputPrice: 0,
         showPrice: 0
-      }
+      },
+      openBottom: false
     }
   },
   created: function () {
@@ -161,12 +194,6 @@ export default {
       })
   },
   methods: {
-    changeActive (index) {
-      this.active = index
-    },
-    shift () {
-      console.log(999999)
-    },
     goConfirmOrder (goodsId) {
       // eslint-disable-next-line standard/object-curly-even-spacing
       this.$router.push({
@@ -174,6 +201,12 @@ export default {
         path: 'confirmOrder', query: { goodsId: goodsId}
 
       })
+    },
+    closeBottomSheet () {
+      this.openBottom = false
+    },
+    openBotttomSheet () {
+      this.openBottom = true
     }
   }
 }
@@ -216,7 +249,6 @@ export default {
       text-align: left;
       position: relative;
       top: 2px;
-      text-align: left;
     }
     .title-text-row{
       text-align: center;
@@ -230,6 +262,7 @@ export default {
       text-align: left;
       width: 100%;
       float: left;
+      font-weight: bolder;
     }
     .title-text-row-sub{
       font-size: 14px;
@@ -240,6 +273,11 @@ export default {
     }
     /*****************************/
     .express-info-row{
+    }
+    .express-info-row .mu-icon {
+      position: relative;
+      top: 2px;
+      font-size: 16px;
     }
     .sale-protection-row{
     }
@@ -267,5 +305,14 @@ export default {
       height: 16px;
       position: relative;
       top: 2px;
+    }
+
+    .icon-flex-wrap .mu-button {
+      margin: 6px 8px;
+    }
+  /*****************/
+    .demo-chip {
+      margin: 8px;
+      vertical-align: middle;
     }
 </style>

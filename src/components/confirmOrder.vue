@@ -123,7 +123,7 @@
         <mu-col>共 <span>2</span>件</mu-col>
         <mu-col>合计：<span>￥2000.00</span></mu-col>
         <mu-col>
-          <mu-button color="error" class="submit-button">提交订单</mu-button>
+          <mu-button @click="submitOrder" color="error" class="submit-button">提交订单</mu-button>
         </mu-col>
       </mu-row>
     </div>
@@ -178,6 +178,10 @@ export default {
     },
     shift () {
       console.log(999999)
+    },
+    submitOrder () {
+      let data = {}
+      this.$request.post('/orderapi/create', data).then().catch()
     }
   }
 }
